@@ -9,7 +9,6 @@ const cors = require('cors')
 
 dotenv.config();
 
-const PORT = process.env.PORT
 
 const app = express();
 
@@ -18,7 +17,6 @@ const messageRoutes = require('./routes/messageRoutes');
 const userRoutes = require('./routes/userRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 
-const mongodb_url = process.env.mongodb_url;
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -54,13 +52,9 @@ app.get('/', (req, res) => {
 });
 
 mongoose
-.connect(mongodb_url)
-.then(() => {
-    console.log('Database Connected');
-    app.listen(process.env.PORT, () => {
-        console.log(`Server is running on port ${PORT}`)
-    });
-})
-.catch((error) => {
-    console.error('Database not Connected:', error);
-});
+mongoose
+  .connect(process.env.mongodb_url)
+  .then(() => console.log('Database Connected'))
+  .catch((error) => console.error('Database not Connected:', error));
+
+  module.exports = app;
